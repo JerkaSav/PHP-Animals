@@ -34,12 +34,6 @@ $result = $statement->fetchAll();
       <th>
         Namn
       </th>
-      <th>
-        Pris
-      </th>
-      <th>
-        Vikt
-      </th>
     </tr>
     <?php
           foreach ($result as $animal) {
