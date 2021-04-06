@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 $dbh = new PDO('mysql:host=localhost;dbname=zoo;port=3306;charset=utf8;', "animals", "animals");
 
-$query = "SELECT * FROM animals WHERE ':id' < 10";
+$query = "SELECT * FROM animals WHERE ':id' < 100";
 $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
@@ -30,7 +30,26 @@ $result = $statement->fetchAll();
 </head>
 
 <body>
-  <table>
+
+<h2>PHP Formulär</h2>
+<form method="post"> 
+    <label id="name"> Namn:</label><input type="text" name="name">
+  <br><br>
+  <label id="category"> Kategori:</label><input type="text" name="category">
+  <br><br>
+  <label id="birthday"> Födelsedag:</label><input type="text" name="birthday">
+  <br><br>
+<label id="image"> Bild:</label><input type="file" name="image" id="fileToUpload">
+<br><br>
+ <input type="submit" name="Sumbit" value="Ladda upp bilden">
+  <button type="submit" name="save">save</button>
+    
+  <br><br>  
+</form>
+
+
+
+<table>
     <tr>
       <th>
         #
@@ -97,6 +116,10 @@ $result = $statement->fetchAll();
     background: #666666;
     color: white;
   }
+
+  .error {
+    color: #FF0000;
+    }
 </style>
 
 </html>
