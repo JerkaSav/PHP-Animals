@@ -80,25 +80,6 @@ $result = $statement->fetchAll();
     background: #666666;
     color: white;
   }
-
-  .flex {
-    display: flex;
-
-  }
-
-  div {
-    margin: 10px;
-  }
-
-  .max-pris {
-    margin-left: 20px;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-  }
 </style>
 
 </html>
