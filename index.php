@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-$selectedName = str_replace('-', ' ', $_POST['animals']);
+
 $dbh = new PDO('mysql:host=localhost;dbname=zoo;port=3306;charset=utf8;', "animals", "animals");
 
 $query = "SELECT * FROM animals WHERE ':id' < 100";
@@ -13,11 +13,12 @@ $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
 
-
+$selectedName = str_replace('-', ' ', $_POST['animals']);
 $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
 $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
 $statementByName->execute(array($selectedName));
 $resultByName = $statementByName->fetchAll()
+
 ?>
 
 
