@@ -17,7 +17,7 @@ $selectedName = str_replace('-', ' ', $_POST['animals']);
 $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
 $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
 $statementByName->execute(array($selectedName));
-$resultByName = $statementByName->fetchAll()
+$resultByName = $statementByName->fetchAll();
 
 ?>
 
