@@ -8,10 +8,11 @@ error_reporting(E_ALL);
 
 $dbh = new PDO('mysql:host=localhost;dbname=zoo;port=3306;charset=utf8;', "animals", "animals");
 
-$query = "SELECT *   FROM animals WHERE ':id' < 10";
+$query = "SELECT * FROM animals WHERE ':id' < 10";
 $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
+
 
 
 
@@ -43,6 +44,9 @@ $result = $statement->fetchAll();
       <th>
         Födelsedag
       </th>
+      <th>
+        Bild Url
+      </th>
     </tr>
     <?php
           foreach ($result as $animal) {
@@ -51,6 +55,7 @@ $result = $statement->fetchAll();
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
+              .'<td>'.$animal['img'] .'</td>'
               .'</tr>';
           }
           ?>
