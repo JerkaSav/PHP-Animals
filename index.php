@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 $dbh = new PDO('mysql:host=localhost;dbname=zoo;port=3306;charset=utf8;', "animals", "animals", ) or die($mysqli->connection_error);
 
-$query = "SELECT * FROM animals WHERE ':id' < 100";
+$query = "SELECT * FROM animals WHERE ':id' < 10";
 $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
@@ -79,6 +79,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
+
   <label for="names-animals">Välj ett djur</label>
   <form action="" method="post">
     <select id="names-animals" name='animals'>
@@ -138,11 +139,19 @@ if (isset($_POST["submit"])) {
   </table>
 
 
+<<<<<<< HEAD
   <form action="" method="post" enctype="multipart/form-data">
     Välj en bild att ladda upp:
     <input type="file" name="uploadedFile" id="uploadedFile">
     <input type="submit" value="Upload Image" name="submit">
   </form>
+=======
+<form action="" method="post" enctype="multipart/form-data">
+  Välj en bild att ladda upp:
+  <input type="file" name="uploadedFile" id="uploadedFile">
+  <input type="submit" value="Ladda upp Image" name="submit">
+</form>
+>>>>>>> 47af724a93aa313155b5cbb6f8453560782f70b9
 
   <img src="<?php
 echo $chosen_image
@@ -160,15 +169,30 @@ echo $chosen_image
       <br><br>
       <label id="birthday"> Födelsedag:</label><input type="text" name="birthday">
       <br><br>
-      <label id="image"> Bild:</label><input type="file" name="image" id="fileToUpload">
-      <br><br>
-      <input type="submit" name="Sumbit" value="Ladda upp bilden">
+      
       <button type="submit" name="save">save</button>
 
       <br><br>
     </form>
 
+<?php
+if(isset($_POST['save'])){
+  if(!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['birthday'])){
 
+    $name = $_POST['name'];
+    $category = $_POST['category'];
+    $birthday = $_POST['birthday'];
+
+
+    $query = "insert into form(name, category, birthday) values('$name', '$category', '$birthday')";
+
+    $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
+$statement->execute(array());
+  }
+
+}
+
+?>
 
     <table>
       <tr>
