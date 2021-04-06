@@ -139,7 +139,7 @@ if ($approvedUpload == 0) {
 <form action="" method="post" enctype="multipart/form-data">
   Välj en bild att ladda upp:
   <input type="file" name="uploadedFile" id="uploadedFile">
-  <input type="submit" value="Upload Image" name="submit">
+  <input type="submit" value="Ladda upp Image" name="submit">
 </form>
 
 <img src="<?php 
