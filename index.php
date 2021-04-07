@@ -17,16 +17,19 @@ $result = $statement->fetchAll();
 $selectedName = '';
 $column = '';
 if (isset($_POST['sortByName'])) {
-    $selectedName = $_POST['userInput'];
-    $column = $_POST['column'];
-    if ($column == 'name') {
-        $querySelectByName = 'SELECT * FROM animals WHERE name like ?';
-    } else {
-        $querySelectByName = 'SELECT * FROM animals WHERE category like ?';
+    if (!empty($_POST['userInput']) && !empty($_POST['column'])) {
+        $selectedName = $_POST['userInput'];
+   
+        $column = $_POST['column'];
+        if ($column == 'name') {
+            $querySelectByName = 'SELECT * FROM animals WHERE name like ?';
+        } else {
+            $querySelectByName = 'SELECT * FROM animals WHERE category like ?';
+        }
+        $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
+        $statementByName->execute(array("$selectedName%"));
+        $resultByName = $statementByName->fetchAll();
     }
-    $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
-    $statementByName->execute(array("$selectedName%"));
-    $resultByName = $statementByName->fetchAll();
 }
 
 
@@ -62,7 +65,6 @@ if (isset($_POST["submit"])) {
     
     if ($approvedUpload == 0) {
         echo "Ledsen, filen blev inte uppladdad.";
-    
     } else {
         if (move_uploaded_file($_FILES["uploadedFile"]["tmp_name"], $chosen_image)) {
             echo "Filen ". htmlspecialchars(basename($_FILES["uploadedFile"]["name"])). " har blivit uppladdad.";
@@ -137,14 +139,16 @@ if (isset($_POST["submit"])) {
     </tr>
     <?php
     if (isset($_POST['sortByName'])) {
-        foreach ($resultByName as $animal) {
-            echo '<tr>'
+      if (!empty($_POST['userInput']) && !empty($_POST['column'])) {
+          foreach ($resultByName as $animal) {
+              echo '<tr>'
               .'<td>'.$animal['id'] .'</td>'
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
               .'</tr>';
-        }
+          }
+      }
     }
           ?>
 
