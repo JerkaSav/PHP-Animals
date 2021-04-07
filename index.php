@@ -153,13 +153,22 @@ if (isset($_POST["submit"])) {
     <?php
     if (isset($_POST['sortByName']) || isset($_POST['fromName'])) {
         if (!empty($_POST['userInput']) && !empty($_POST['column']) || !empty($_POST['animals'])) {
-            foreach ($resultByName as $animal) {
-                echo '<tr>'
+            if ($statementByName->rowCount() > 0) {
+                foreach ($resultByName as $animal) {
+                    echo '<tr>'
               .'<td>'.$animal['id'] .'</td>'
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
               .'</tr>';
+                }
+            } else {
+                echo '<tr>'
+            .'<td>'.'TOM'.'</td>'
+            .'<td>'.'TOM'.'</td>'
+            .'<td>'.'TOM'.'</td>'
+            .'<td>'.'TOM'.'</td>'
+            .'</tr>';
             }
         } else {
             echo "Du måste skriva något!";
