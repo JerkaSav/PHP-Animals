@@ -13,11 +13,15 @@ $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
 
+
+$selectedName = '';
+if (isset($_POST['sortByName'])) {
     $selectedName = str_replace('-', ' ', $_POST['animals']);
     $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
     $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
     $statementByName->execute(array($selectedName));
     $resultByName = $statementByName->fetchAll();
+}
 
 
 
@@ -85,6 +89,7 @@ if (isset($_POST["submit"])) {
   <form action="" method="post">
     <select id="names-animals" name='animals'>
       <?php
+      
           foreach ($result as $animal) {
               if ($animal['name'] == $selectedName) {
                   echo
@@ -104,7 +109,6 @@ if (isset($_POST["submit"])) {
           }
           ?>
       <input type="submit" value="submit" name="sortByName">
-      <?php echo str_replace('-', ' ', $_POST['animals']) ?>
     </select>
   </form>
   <table>
@@ -123,14 +127,16 @@ if (isset($_POST["submit"])) {
       </th>
     </tr>
     <?php
-          foreach ($resultByName as $animal) {
-              echo '<tr>'
+    if (isset($_POST['sortByName'])) {
+        foreach ($resultByName as $animal) {
+            echo '<tr>'
               .'<td>'.$animal['id'] .'</td>'
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
               .'</tr>';
-          }
+        }
+    }
           ?>
 
   </table>
