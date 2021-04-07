@@ -23,7 +23,7 @@ $result = $statement->fetchAll();
 
 
 
-// check to see that the file is an image
+
 if (isset($_POST["submit"])) {
     $path_dir = "uploads/";
     $chosen_image = $path_dir . basename($_FILES["uploadedFile"]["name"]);
@@ -37,22 +37,22 @@ if (isset($_POST["submit"])) {
         echo "Filen är inte en bild.";
         $approvedUpload = 0;
     }
-    // File size
+ 
     if ($_FILES["uploadedFile"]["size"] > 500000) {
-        echo "Nu har du lagt upp en för stor file för våra djur att hantera!";
+        echo "Nu har du lagt upp en för stor fil för våra djur att hantera!";
         $approvedUpload = 0;
     }
 
-    // Limit file type
+
     if ($typeOfImage != "jpg" && $typeOfImage != "png" && $typeOfImage != "jpeg"
  ) {
         echo "Ledsen, bara JPG-, JPEG-, PNG- & GIF-filer är tillåtna.";
         $approvedUpload = 0;
     }
-    // Check if $approvedUpload is set to 0 by an error
+    
     if ($approvedUpload == 0) {
         echo "Ledsen, filen blev inte uppladdad.";
-    // if everything is ok, try to upload file
+    
     } else {
         if (move_uploaded_file($_FILES["uploadedFile"]["tmp_name"], $chosen_image)) {
             echo "Filen ". htmlspecialchars(basename($_FILES["uploadedFile"]["name"])). " har blivit uppladdad.";
@@ -145,8 +145,8 @@ if (isset($_POST["submit"])) {
 
 
   <img src="<?php
-echo $chosen_image
-?>">
+    echo $chosen_image
+  ?>">
 
   </div>
 
