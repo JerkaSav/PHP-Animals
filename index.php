@@ -119,7 +119,7 @@ if (isset($_POST["submit"])) {
           //     }
           // }
           ?>
-      <input type="submit" value="submit" name="sortByName">
+      <input type="submit" value="Skicka in" name="sortByName">
     </select>
   </form>
   <table>
@@ -180,7 +180,7 @@ if (isset($_POST["submit"])) {
       <label id="birthday"> Födelsedag:</label><input type="date" name="birthday">
       <br><br>
 
-      <button type="submit" name="save">save</button>
+      <button type="submit" name="save">Spara</button>
 
       <br><br>
     </form>
