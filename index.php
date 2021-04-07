@@ -13,12 +13,13 @@ $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
 
-$selectedName = str_replace('-', ' ', $_POST['animals']);
+    $selectedName = str_replace('-', ' ', $_POST['animals']);
+    $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
+    $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
+    $statementByName->execute(array($selectedName));
+    $resultByName = $statementByName->fetchAll();
 
-$querySelectByName = 'SELECT * FROM animals WHERE name = ?';
-$statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
-$statementByName->execute(array($selectedName));
-$resultByName = $statementByName->fetchAll();
+
 
 
 
@@ -102,7 +103,7 @@ if (isset($_POST["submit"])) {
               }
           }
           ?>
-      <input type="submit" value="submit">
+      <input type="submit" value="submit" name="sortByName">
       <?php echo str_replace('-', ' ', $_POST['animals']) ?>
     </select>
   </form>
@@ -120,9 +121,6 @@ if (isset($_POST["submit"])) {
       <th>
         Födelsedag
       </th>
-      <th>
-        Bild Url
-      </th>
     </tr>
     <?php
           foreach ($resultByName as $animal) {
@@ -131,7 +129,6 @@ if (isset($_POST["submit"])) {
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
-              .'<td>'.$animal['img'] .'</td>'
               .'</tr>';
           }
           ?>
@@ -140,11 +137,11 @@ if (isset($_POST["submit"])) {
 
 
 
-<form action="" method="post" enctype="multipart/form-data">
-  Välj en bild att ladda upp:
-  <input type="file" name="uploadedFile" id="uploadedFile">
-  <input type="submit" value="Ladda upp Image" name="submit">
-</form>
+  <form action="" method="post" enctype="multipart/form-data">
+    Välj en bild att ladda upp:
+    <input type="file" name="uploadedFile" id="uploadedFile">
+    <input type="submit" value="Ladda upp bild" name="submit">
+  </form>
 
 
   <img src="<?php
@@ -161,29 +158,29 @@ echo $chosen_image
       <br><br>
       <label id="category"> Kategori:</label><input type="text" name="category">
       <br><br>
-      <label id="birthday"> Födelsedag:</label><input type="text" name="birthday">
+      <label id="birthday"> Födelsedag:</label><input type="date" name="birthday">
       <br><br>
-      
+
       <button type="submit" name="save">save</button>
 
       <br><br>
     </form>
 
-<?php
-if(isset($_POST['save'])){
-  if(!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['birthday'])){
+    <?php
+    
+if (isset($_POST['save'])) {
+    if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['birthday'])) {
+        $name = $_POST['name'];
+        $category = $_POST['category'];
+        $birthday = $_POST['birthday'];
+     
+        $query = "insert into animals (name, category, birthday) values(?, ?, ?)";
 
-    $name = $_POST['name'];
-    $category = $_POST['category'];
-    $birthday = $_POST['birthday'];
+        $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
+        $statement->execute(array($name, $category, $birthday));
 
-
-    $query = "insert into form(name, category, birthday) values('$name', '$category', '$birthday')";
-
-    $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
-$statement->execute(array());
-  }
-
+        echo "<meta http-equiv='refresh' content='0'>";
+    }
 }
 
 ?>
@@ -202,9 +199,6 @@ $statement->execute(array());
         <th>
           Födelsedag
         </th>
-        <th>
-          Bild Url
-        </th>
       </tr>
       <?php
           foreach ($result as $animal) {
@@ -213,7 +207,6 @@ $statement->execute(array());
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
-              .'<td>'.$animal['img'] .'</td>'
               .'</tr>';
           }
           ?>
