@@ -233,6 +233,7 @@ if (isset($_POST['save'])) {
       if (empty($_POST['birthday'])) {
           echo '<br>'.'<span>'.'Du måste fylla i födelsedatum!'.'</span>';
       }
+      
 }
 
 ?>
