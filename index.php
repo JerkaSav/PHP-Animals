@@ -139,19 +139,13 @@ if (isset($_POST["submit"])) {
   </table>
 
 
-<<<<<<< HEAD
-  <form action="" method="post" enctype="multipart/form-data">
-    Välj en bild att ladda upp:
-    <input type="file" name="uploadedFile" id="uploadedFile">
-    <input type="submit" value="Upload Image" name="submit">
-  </form>
-=======
+
 <form action="" method="post" enctype="multipart/form-data">
   Välj en bild att ladda upp:
   <input type="file" name="uploadedFile" id="uploadedFile">
   <input type="submit" value="Ladda upp Image" name="submit">
 </form>
->>>>>>> 47af724a93aa313155b5cbb6f8453560782f70b9
+
 
   <img src="<?php
 echo $chosen_image
