@@ -165,18 +165,19 @@ echo $chosen_image
     </form>
 
     <?php
+    
 if (isset($_POST['save'])) {
     if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['birthday'])) {
         $name = $_POST['name'];
         $category = $_POST['category'];
         $birthday = $_POST['birthday'];
-        echo $birthday;
-
-
+     
         $query = "insert into animals (name, category, birthday) values(?, ?, ?)";
 
         $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
         $statement->execute(array($name, $category, $birthday));
+
+        echo "<meta http-equiv='refresh' content='0'>";
     }
 }
 
