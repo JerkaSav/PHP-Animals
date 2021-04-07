@@ -13,12 +13,13 @@ $statement = $dbh->prepare($query, array(PDO::FETCH_ASSOC));
 $statement->execute(array(':id' => 10));
 $result = $statement->fetchAll();
 
-$selectedName = str_replace('-', ' ', $_POST['animals']);
+    $selectedName = str_replace('-', ' ', $_POST['animals']);
+    $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
+    $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
+    $statementByName->execute(array($selectedName));
+    $resultByName = $statementByName->fetchAll();
 
-$querySelectByName = 'SELECT * FROM animals WHERE name = ?';
-$statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
-$statementByName->execute(array($selectedName));
-$resultByName = $statementByName->fetchAll();
+
 
 
 
@@ -102,7 +103,7 @@ if (isset($_POST["submit"])) {
               }
           }
           ?>
-      <input type="submit" value="submit">
+      <input type="submit" value="submit" name="sortByName">
       <?php echo str_replace('-', ' ', $_POST['animals']) ?>
     </select>
   </form>
@@ -120,9 +121,6 @@ if (isset($_POST["submit"])) {
       <th>
         Födelsedag
       </th>
-      <th>
-        Bild Url
-      </th>
     </tr>
     <?php
           foreach ($resultByName as $animal) {
@@ -131,7 +129,6 @@ if (isset($_POST["submit"])) {
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
-              .'<td>'.$animal['img'] .'</td>'
               .'</tr>';
           }
           ?>
@@ -172,7 +169,7 @@ if (isset($_POST['save'])) {
     if (!empty($_POST['name']) && !empty($_POST['category']) && !empty($_POST['birthday'])) {
         $name = $_POST['name'];
         $category = $_POST['category'];
-        $birthday = ($_POST['birthday']);
+        $birthday = $_POST['birthday'];
         echo $birthday;
 
 
@@ -199,9 +196,6 @@ if (isset($_POST['save'])) {
         <th>
           Födelsedag
         </th>
-        <th>
-          Bild Url
-        </th>
       </tr>
       <?php
           foreach ($result as $animal) {
@@ -210,7 +204,6 @@ if (isset($_POST['save'])) {
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
-              .'<td>'.$animal['img'] .'</td>'
               .'</tr>';
           }
           ?>
