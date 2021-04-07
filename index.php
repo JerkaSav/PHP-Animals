@@ -16,7 +16,7 @@ $result = $statement->fetchAll();
 
 $selectedName = '';
 $column = '';
-if (isset($_POST['sortByName'])) {
+if (isset($_POST['sortByName']) || isset($_POST['fromName'])) {
     if (!empty($_POST['userInput']) && !empty($_POST['column'])) {
         $selectedName = $_POST['userInput'];
    
@@ -28,6 +28,12 @@ if (isset($_POST['sortByName'])) {
         }
         $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
         $statementByName->execute(array("$selectedName%"));
+        $resultByName = $statementByName->fetchAll();
+    } else {
+        $selectedName = $_POST['animals'];
+        $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
+        $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
+        $statementByName->execute(array($selectedName));
         $resultByName = $statementByName->fetchAll();
     }
 }
@@ -92,36 +98,43 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-
-  <label for="names-animals">Välj ett djur</label>
+  <label for="search">Välj ett alternativ och skriv ett sökord</label>
   <form action="" method="post">
-    <select id="names-animals" name='column'>
+    <select id="search" name='column'>
       <option value='name'>Namn</option>
       <option value='category'>Kategori</option>
       <input type="text" name='userInput'>
-      <?php
-      
-          // foreach ($result as $animal) {
-          //     if ($animal['name'] == $selectedName) {
-          //         echo
-          //     '<option Selected value='
-          //     .str_replace(' ', '-', $animal['name'])
-          //     .'>'
-          //     .$animal['name']
-          //     .'</option>';
-          //     } else {
-          //         echo
-          //     '<option value='
-          //     .str_replace(' ', '-', $animal['name'])
-          //     .'>'
-          //     .$animal['name']
-          //     .'</option>';
-          //     }
-          // }
-          ?>
       <input type="submit" value="submit" name="sortByName">
     </select>
   </form>
+  <br>
+  <form action="" method="post">
+    <label for="names-animals">Eller: välj ett djur</label> <br>
+    <select id="names-animals" name='animals'>
+      <?php
+      
+           foreach ($result as $animal) {
+               if ($animal['name'] == $selectedName) {
+                   echo
+               '<option Selected value='
+               .str_replace(' ', '-', $animal['name'])
+               .'>'
+               .$animal['name']
+               .'</option>';
+               } else {
+                   echo
+               '<option value='
+               .str_replace(' ', '-', $animal['name'])
+               .'>'
+               .$animal['name']
+               .'</option>';
+               }
+           }
+          ?>
+    </select>
+    <input type="submit" name="fromName" value='submit'>
+  </form>
+
   <table>
     <tr>
       <th>
@@ -138,17 +151,19 @@ if (isset($_POST["submit"])) {
       </th>
     </tr>
     <?php
-    if (isset($_POST['sortByName'])) {
-      if (!empty($_POST['userInput']) && !empty($_POST['column'])) {
-          foreach ($resultByName as $animal) {
-              echo '<tr>'
+    if (isset($_POST['sortByName']) || isset($_POST['fromName'])) {
+        if (!empty($_POST['userInput']) && !empty($_POST['column']) || !empty($_POST['animals'])) {
+            foreach ($resultByName as $animal) {
+                echo '<tr>'
               .'<td>'.$animal['id'] .'</td>'
               .'<td>'.$animal['name'] .'</td>'
               .'<td>'.$animal['category'] .'</td>'
               .'<td>'.$animal['birthday'] .'</td>'
               .'</tr>';
-          }
-      }
+            }
+        } else {
+            echo "Du måste skriva något!";
+        }
     }
           ?>
 
