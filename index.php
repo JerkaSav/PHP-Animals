@@ -104,7 +104,7 @@ if (isset($_POST["submit"])) {
       <option value='name'>Namn</option>
       <option value='category'>Kategori</option>
       <input type="text" name='userInput'>
-      <input type="submit" value="submit" name="sortByName">
+      <input type="submit" value="Skicka in" name="sortByName">
     </select>
   </form>
   <br>
@@ -131,7 +131,6 @@ if (isset($_POST["submit"])) {
                }
            }
           ?>
-      <input type="submit" value="Skicka in" name="sortByName">
     </select>
     <input type="submit" name="fromName" value='Skicka in'>
   </form>
