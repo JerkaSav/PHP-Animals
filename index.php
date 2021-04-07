@@ -15,11 +15,17 @@ $result = $statement->fetchAll();
 
 
 $selectedName = '';
+$column = '';
 if (isset($_POST['sortByName'])) {
-    $selectedName = str_replace('-', ' ', $_POST['animals']);
-    $querySelectByName = 'SELECT * FROM animals WHERE name = ?';
+    $selectedName = $_POST['userInput'];
+    $column = $_POST['column'];
+    if ($column == 'name') {
+        $querySelectByName = 'SELECT * FROM animals WHERE name like ?';
+    } else {
+        $querySelectByName = 'SELECT * FROM animals WHERE category like ?';
+    }
     $statementByName = $dbh->prepare($querySelectByName, array(PDO::FETCH_ASSOC));
-    $statementByName->execute(array($selectedName));
+    $statementByName->execute(array("$selectedName%"));
     $resultByName = $statementByName->fetchAll();
 }
 
@@ -87,26 +93,29 @@ if (isset($_POST["submit"])) {
 
   <label for="names-animals">Välj ett djur</label>
   <form action="" method="post">
-    <select id="names-animals" name='animals'>
+    <select id="names-animals" name='column'>
+      <option value='name'>Namn</option>
+      <option value='category'>Kategori</option>
+      <input type="text" name='userInput'>
       <?php
       
-          foreach ($result as $animal) {
-              if ($animal['name'] == $selectedName) {
-                  echo
-              '<option Selected value='
-              .str_replace(' ', '-', $animal['name'])
-              .'>'
-              .$animal['name']
-              .'</option>';
-              } else {
-                  echo
-              '<option value='
-              .str_replace(' ', '-', $animal['name'])
-              .'>'
-              .$animal['name']
-              .'</option>';
-              }
-          }
+          // foreach ($result as $animal) {
+          //     if ($animal['name'] == $selectedName) {
+          //         echo
+          //     '<option Selected value='
+          //     .str_replace(' ', '-', $animal['name'])
+          //     .'>'
+          //     .$animal['name']
+          //     .'</option>';
+          //     } else {
+          //         echo
+          //     '<option value='
+          //     .str_replace(' ', '-', $animal['name'])
+          //     .'>'
+          //     .$animal['name']
+          //     .'</option>';
+          //     }
+          // }
           ?>
       <input type="submit" value="submit" name="sortByName">
     </select>
